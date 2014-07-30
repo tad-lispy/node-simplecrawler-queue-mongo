@@ -1,0 +1,30 @@
+{
+  "name": "simplecrawler-queue-mongo",
+  "version": "0.0.0",
+  "description": "MongoDB queue for Node Simple Crawler",
+  "main": "build/MongoQueue.js",
+  "scripts": {
+    "test": "gulp test",
+    "prepublish": "gulp build"
+  },
+  "keywords": [
+    "SimpleCrawler",
+    "Mongo",
+    "Mongoose",
+    "Queue"
+  ],
+  "devDependencies": {
+    "coffee-script": "^1.7.1",
+    "del": "^0.1.1",
+    "gulp": "^3.8.5",
+    "gulp-coffee": "^2.0.1",
+    "gulp-mocha": "^0.4.1",
+    "gulp-nodemon": "^1.0.4",
+    "gulp-rename": "^1.2.0"
+  },
+  "author": "Tadeusz Łazurski <tadeusz@lazurski.pl> (http://lazurski.pl/)",
+  "license": "GPL 3",
+  "dependencies": {
+    "mongoose": "^3.8.14"
+  }
+}
