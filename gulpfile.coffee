@@ -46,4 +46,6 @@ gulp.task 'test', ->
       compilers : 'coffee:coffee-script'
       reporter  : 'spec'
 
-gulp.task 'default', ['build', 'test', 'watch']
+gulp.task 'develop', ['build', 'test', 'watch']
+
+gulp.task 'default', ['develop']

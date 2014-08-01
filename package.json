@@ -5,7 +5,8 @@
   "main": "build/MongoQueue.js",
   "scripts": {
     "test": "gulp test",
-    "prepublish": "gulp build"
+    "prepublish": "gulp build",
+    "develop": "gulp develop"
   },
   "keywords": [
     "SimpleCrawler",
