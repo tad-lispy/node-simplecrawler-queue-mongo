@@ -13,10 +13,10 @@ module.exports = class MongoQueue
   length: 0 # Temporary solution until simplecrawler core starts using async method for queue length
 
   # Add item to queue
-  add: (protocol, domain, port, path, callback) ->
+  add: (protocol, host, port, path, callback) ->
     data = {
       protocol
-      domain
+      host
       port
       path
     }
@@ -52,8 +52,7 @@ module.exports = class MongoQueue
   # Get first unfetched item in the queue (and return its index)
   oldestUnfetchedItem: (callback) ->
     Item
-      .findOne status: 'queued'
-      .sort id: -1
+      .findOne fetched: no
       .exec callback
 
   # Gets the maximum total request time, request latency, or download time

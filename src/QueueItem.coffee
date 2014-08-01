@@ -5,7 +5,7 @@ item = new mongoose.Schema
     type    : String
     required: yes
 
-  domain  :
+  host    :
     type    : String
     required: yes
 
@@ -20,8 +20,17 @@ item = new mongoose.Schema
     type    : String
     default : 'queued'
 
+  fetched :
+    type    : Boolean
+    default : no
+
+  stateData:
+    type    : Object
+    default : {}
+
   # TODO: Other properties of Item (like stats, error description...)
 
-item.virtuals.url = @protocol + '://' + @domain + (if @port then ':' + @port) + @path
+item.virtual 'url'
+  .get -> @protocol + '://' + @domain + (if @port then ':' + @port) + @path
 
 module.exports = mongoose.model 'QueueItem', item
