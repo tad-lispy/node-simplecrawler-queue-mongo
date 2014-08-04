@@ -31,6 +31,6 @@ item = new mongoose.Schema
   # TODO: Other properties of Item (like stats, error description...)
 
 item.virtual 'url'
-  .get -> @protocol + '://' + @domain + (if @port then ':' + @port) + @path
+  .get -> @protocol + '://' + @host + (if @port then ':' + @port) + @path
 
 module.exports = mongoose.model 'QueueItem', item
