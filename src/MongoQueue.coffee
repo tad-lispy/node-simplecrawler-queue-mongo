@@ -5,12 +5,10 @@ mongoose = require "mongoose"
 Item     = require "./QueueItem"
 
 module.exports = class MongoQueue
-  constructor: (mongouri) ->
-    mongoose.connect mongouri
-    mongoose.connection.once 'connected', =>
-      console.log "Mongo queue connected"
-
-  length: 0 # Temporary solution until simplecrawler core starts using async method for queue length
+  # constructor: (mongouri) ->
+  #   # mongoose.connect mongouri
+  #   mongoose.connection.once 'connected', =>
+  #     console.log "Mongo queue connected"
 
   # Add item to queue
   add: (protocol, host, port, path, callback) ->
@@ -20,7 +18,6 @@ module.exports = class MongoQueue
       port
       path
     }
-    @length++
     Item.findOne data, (error, item) ->
       if item
         item.set data
@@ -38,6 +35,9 @@ module.exports = class MongoQueue
       path
     }
     Item.count data, callback
+
+  getLength: (callback) ->
+    Item.count callback
 
   # Get last item in queue...
   last = (callback) ->
