@@ -1,6 +1,7 @@
 gulp       = require 'gulp'
 
 coffee     = require 'gulp-coffee'
+sourcemaps = require "gulp-sourcemaps"
 mocha      = require 'gulp-mocha'
 nodemon    = require 'gulp-nodemon'
 # browserify = require 'gulp-browserify'
@@ -29,7 +30,9 @@ gulp.task 'clean', (done) ->
 gulp.task 'build', ['clean'], ->
   gulp
     .src sources.code
+    .pipe sourcemaps.init()
     .pipe coffee()
+    .pipe sourcemaps.write()
     .pipe gulp.dest destinations.code
 
 
