@@ -77,11 +77,11 @@ module.exports = class MongoQueue
 
   # Get first unfetched item in the queue (and return its index)
   oldestUnfetchedItem: (callback) ->
-    @Item
-      .findOne
-        crawler: @crawler.name
-        fetched: no
-      .exec callback
+    query =
+      crawler: @crawler.name
+      status : 'queued'
+
+    @Item.findOneAndUpdate query, status: 'spooled', callback
 
   # Gets the maximum total request time, request latency, or download time
   max: (statisticname, callback) ->
