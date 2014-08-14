@@ -1,13 +1,37 @@
 # TODO: We assume that there is a connection to mongo established by crawler app
 
-
-mongoose = require "mongoose"
+_        = require "lodash"
 getItem  = require "./QueueItem"
 
 module.exports = class MongoQueue
-  constructor: (mongo, @name) ->
-    console.log "Initializing mongo queue for #{@name}"
-    @Item = getItem mongo, @name
+  constructor: (mongo, @crawler) ->
+    console.log "Initializing mongo queue for #{@crawler.name}"
+    @Item = getItem mongo, @crawler.name
+
+    # Update status of items in db on crawler events
+    @updateStatus = (item, status) ->
+      console.log "#{status} \t #{item.url}"
+      # query = _.pick item, [
+      #   'protocol'
+      #   'host'
+      #   'path'
+      #   'port'
+      # ]
+      item.set {status}
+      item.save (error) ->
+        if error then throw error
+
+    eventstates =
+      fetchstart   : 'spooled'
+      fetchcomplete: 'fetched'
+      fetcherror   : 'error'
+
+    setEventHandler = (event, status) =>
+      @crawler.on event, (item) =>
+        @updateStatus item, status
+
+    setEventHandler event, status for event, status of eventstates
+
 
   # Add item to queue
   add: (protocol, host, port, path, callback) ->
@@ -16,7 +40,7 @@ module.exports = class MongoQueue
       host
       port
       path
-      crawler: @name
+      crawler: @crawler.name
     }
     @Item.findOne data, (error, item) =>
       if item
@@ -33,7 +57,7 @@ module.exports = class MongoQueue
       domain
       port
       path
-      crawler: @name
+      crawler: @crawler.name
     }
     @Item.count data, callback
 
@@ -43,7 +67,7 @@ module.exports = class MongoQueue
   # Get last item in queue...
   last: (callback) ->
     @Item
-      .findOne crawler: @name
+      .findOne crawler: @crawler.name
       .sort id: -1
       .exec callback
 
@@ -55,7 +79,7 @@ module.exports = class MongoQueue
   oldestUnfetchedItem: (callback) ->
     @Item
       .findOne
-        crawler: @name
+        crawler: @crawler.name
         fetched: no
       .exec callback
 
@@ -83,21 +107,21 @@ module.exports = class MongoQueue
   countWithStatus: (status, callback) ->
     @Item.count {
       status
-      crawler: @name
+      crawler: @crawler.name
     }
 
   # Gets the number of queue items with the given status
   getWithStatus: (status, callback) ->
     @Item.find {
       status
-      crawler: @name
+      crawler: @crawler.name
     }, callback
 
   # Gets the number of requests which have failed for some reason
   errors: (callback) ->
     @Item.count
       status: 'error'
-      crawler: @name
+      crawler: @crawler.name
       callback
 
   # Writes the queue to disk

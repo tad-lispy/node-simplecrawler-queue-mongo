@@ -27,6 +27,7 @@
   "license": "GPL 3",
   "dependencies": {
     "gulp-sourcemaps": "^1.1.1",
+    "lodash": "^2.4.1",
     "mongoose": "^3.8.14"
   }
 }

@@ -35,6 +35,7 @@ module.exports = (connection, crawler) ->
       type    : String
       required: yes
       indexed : yes
+      default : 'default'
 
     # TODO: Other properties of Item (like stats, error description...)
 
