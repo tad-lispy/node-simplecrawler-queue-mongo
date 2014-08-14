@@ -2,13 +2,12 @@
 
 
 mongoose = require "mongoose"
-Item     = require "./QueueItem"
+getItem  = require "./QueueItem"
 
 module.exports = class MongoQueue
-  # constructor: (mongouri) ->
-  #   # mongoose.connect mongouri
-  #   mongoose.connection.once 'connected', =>
-  #     console.log "Mongo queue connected"
+  constructor: (mongo, @name) ->
+    console.log "Initializing mongo queue for #{@name}"
+    @Item = getItem mongo, @name
 
   # Add item to queue
   add: (protocol, host, port, path, callback) ->
@@ -17,12 +16,13 @@ module.exports = class MongoQueue
       host
       port
       path
+      crawler: @name
     }
-    Item.findOne data, (error, item) ->
+    @Item.findOne data, (error, item) =>
       if item
         item.set data
       else
-        item = new Item data
+        item = new @Item data
 
       item.save callback
 
@@ -33,40 +33,44 @@ module.exports = class MongoQueue
       domain
       port
       path
+      crawler: @name
     }
-    Item.count data, callback
+    @Item.count data, callback
 
   getLength: (callback) ->
-    Item.count callback
+    @Item.count callback
 
   # Get last item in queue...
-  last = (callback) ->
-    Item
-      .findOne
+  last: (callback) ->
+    @Item
+      .findOne crawler: @name
       .sort id: -1
       .exec callback
 
   # Get item from queue
-  get: Item.findById
+  get: (id, callback) ->
+    @Item.findById id, callback
 
   # Get first unfetched item in the queue (and return its index)
   oldestUnfetchedItem: (callback) ->
-    Item
-      .findOne fetched: no
+    @Item
+      .findOne
+        crawler: @name
+        fetched: no
       .exec callback
 
   # Gets the maximum total request time, request latency, or download time
-  max: (statisticName, callback) ->
+  max: (statisticname, callback) ->
     # TODO: Later. Statistics require additional fields in model.
     process.nextTick -> callback null, 0
 
   # Gets the minimum total request time, request latency, or download time
-  min: (statisticName,callback) ->
+  min: (statisticname, callback) ->
     # TODO: Later. Statistics require additional fields in model.
     process.nextTick -> callback null, 0
 
   # Gets the minimum total request time, request latency, or download time
-  avg: (statisticName,callback) ->
+  avg: (statisticname, callback) ->
     # TODO: Later. Statistics require additional fields in model.
     process.nextTick -> callback null, 0
 
@@ -77,15 +81,24 @@ module.exports = class MongoQueue
 
   # Gets the number of queue items with the given status
   countWithStatus: (status, callback) ->
-    Item.count {status}, callback
+    @Item.count {
+      status
+      crawler: @name
+    }
 
   # Gets the number of queue items with the given status
   getWithStatus: (status, callback) ->
-    Item.find {status}, callback
+    @Item.find {
+      status
+      crawler: @name
+    }, callback
 
   # Gets the number of requests which have failed for some reason
   errors: (callback) ->
-    Item.count status: 'error', callback
+    @Item.count
+      status: 'error'
+      crawler: @name
+      callback
 
   # Writes the queue to disk
   freeze: (filename, callback) ->

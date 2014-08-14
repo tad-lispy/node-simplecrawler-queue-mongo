@@ -1,36 +1,54 @@
-mongoose = require "mongoose"
+QueueItem = undefined
 
-item = new mongoose.Schema
-  protocol:
-    type    : String
-    required: yes
+module.exports = (connection, crawler) ->
+  schema = new connection.base.Schema
+    protocol:
+      type    : String
+      required: yes
 
-  host    :
-    type    : String
-    required: yes
+    host    :
+      type    : String
+      required: yes
 
-  port    :
-    type    : Number
+    port    :
+      type    : Number
 
-  path    :
-    type    : String
-    required: yes
+    path    :
+      type    : String
+      required: yes
 
-  status  :
-    type    : String
-    default : 'queued'
+    status  :
+      type    : String
+      default : 'queued'
 
-  fetched :
-    type    : Boolean
-    default : no
+    fetched :
+      type    : Boolean
+      default : no
 
-  stateData:
-    type    : Object
-    default : {}
+    stateData:
+      type    : Object
+      default : {}
 
-  # TODO: Other properties of Item (like stats, error description...)
+    crawler :
+      # Identifies crawler, for which this queue is held
+      # TODO: It would be nice to use discriminators instead, see below
+      type    : String
+      required: yes
+      indexed : yes
 
-item.virtual 'url'
-  .get -> @protocol + '://' + @domain + (if @port then ':' + @port) + @path
+    # TODO: Other properties of Item (like stats, error description...)
 
-module.exports = mongoose.model 'QueueItem', item
+  schema.virtual 'url'
+    .get -> @protocol + '://' + @host + (if @port then ':' + @port) + @path
+
+  # TODO: It would be nice to use discriminators instead.
+  # It throws Discriminator "#{name}" can only be a discriminator of the root model
+  # WTF?
+  QueueItem ?= connection.model "QueueItem", schema
+  # Item.schema.path 'crawler',
+  #   type    : String
+  #   required: yes
+  #   indexed : yes
+  #   default : crawler
+
+  module.exports = QueueItem

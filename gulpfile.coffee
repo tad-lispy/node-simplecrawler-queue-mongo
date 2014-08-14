@@ -32,6 +32,7 @@ gulp.task 'build', ['clean'], ->
     .src sources.code
     .pipe sourcemaps.init()
     .pipe coffee()
+    .on "error", (error) -> console.error error
     .pipe sourcemaps.write()
     .pipe gulp.dest destinations.code
 
