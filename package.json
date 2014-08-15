@@ -21,13 +21,12 @@
     "gulp-coffee": "^2.0.1",
     "gulp-mocha": "^0.4.1",
     "gulp-nodemon": "^1.0.4",
-    "gulp-rename": "^1.2.0"
+    "gulp-rename": "^1.2.0",
+    "gulp-sourcemaps": "^1.1.1"
   },
   "author": "Tadeusz Łazurski <tadeusz@lazurski.pl> (http://lazurski.pl/)",
   "license": "GPL 3",
   "dependencies": {
-    "gulp-sourcemaps": "^1.1.1",
-    "lodash": "^2.4.1",
-    "mongoose": "^3.8.14"
+    "lodash": "^2.4.1"
   }
 }
