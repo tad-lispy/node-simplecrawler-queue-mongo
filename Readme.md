@@ -25,9 +25,8 @@ mongoose = require "mongoose"
 mongoose.connect "localhost/test"
 
 crawler       = Crawler.crawl "http://radzimy.co/"
-crawler.name  = 'default'
+crawler.name  = 'radzimy-co' # You don't need this if you only run one crawler.
 crawler.queue = new Queue mongoose.connections[0], crawler
-do crawler.start
 ```
 which compiles to:
 
@@ -41,7 +40,7 @@ mongoose  = require("mongoose");
 mongoose.connect("localhost/test");
 
 crawler       = Crawler.crawl("http://radzimy.co/");
-crawler.name  = 'radzimy.co';
+crawler.name  = 'radzimy-co';
 crawler.queue = new Queue(
   mongoose.connections[0],
   crawler
