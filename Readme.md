@@ -41,13 +41,19 @@ mongoose  = require("mongoose");
 mongoose.connect("localhost/test");
 
 crawler       = Crawler.crawl("http://radzimy.co/");
-crawler.name  = 'default';
+crawler.name  = 'radzimy.co';
 crawler.queue = new Queue(
   mongoose.connections[0],
   crawler
 );
 
 ```
+
+# Notes
+
+ATM it relies on Mongoose connection that application provide. In the future I'd like to decouple it, so that application could provide native MongoDB connection or connection string.
+
+If you want to use multiple crawlers with one database (eg. for crawling multiple domains) set unique name property on each crawler (like in the example). It will be used to distinguish queues in a collection.
 
 # Contributing
 

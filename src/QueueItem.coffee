@@ -33,7 +33,6 @@ module.exports = (connection, crawler) ->
       # Identifies crawler, for which this queue is held
       # TODO: It would be nice to use discriminators instead, see below
       type    : String
-      required: yes
       indexed : yes
       default : 'default'
 
@@ -46,10 +45,4 @@ module.exports = (connection, crawler) ->
   # It throws Discriminator "#{name}" can only be a discriminator of the root model
   # WTF?
   QueueItem ?= connection.model "QueueItem", schema
-  # Item.schema.path 'crawler',
-  #   type    : String
-  #   required: yes
-  #   indexed : yes
-  #   default : crawler
-
   module.exports = QueueItem
