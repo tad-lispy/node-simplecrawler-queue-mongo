@@ -31,7 +31,7 @@ do crawler.start
 ```
 which compiles to:
 
-```java-script
+```javascript
 var Crawler, Queue, crawler, mongoose;
 
 Crawler   = require("simplecrawler");
