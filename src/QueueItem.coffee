@@ -24,6 +24,7 @@ module.exports = (connection, crawler) ->
     status  :
       type    : String
       default : 'queued'
+      index   : yes
       enum    : [
         'queued'      # Added to queue
         'spooled'     # Requested, but no response yet
