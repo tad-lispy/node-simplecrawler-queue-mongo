@@ -25,6 +25,7 @@ module.exports = class MongoQueue
       fetchstart   : 'spooled'
       fetchcomplete: 'fetched'
       fetcherror   : 'error'
+      fetchredirect: 'redirected'
 
     setEventHandler = (event, status) =>
       @crawler.on event, (item) =>
