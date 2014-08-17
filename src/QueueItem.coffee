@@ -5,17 +5,21 @@ module.exports = (connection, crawler) ->
     protocol:
       type    : String
       required: yes
+      index   : yes
 
     host    :
       type    : String
       required: yes
+      index   : yes
 
     port    :
       type    : Number
+      index   : yes
 
     path    :
       type    : String
       required: yes
+      index   : yes
 
     status  :
       type    : String
@@ -33,7 +37,7 @@ module.exports = (connection, crawler) ->
       # Identifies crawler, for which this queue is held
       # TODO: It would be nice to use discriminators instead, see below
       type    : String
-      indexed : yes
+      index   : yes
       default : 'default'
 
     # TODO: Other properties of Item (like stats, error description...)
