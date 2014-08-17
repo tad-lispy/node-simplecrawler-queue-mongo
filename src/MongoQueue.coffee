@@ -11,17 +11,12 @@ module.exports = class MongoQueue
     # Update status of items in db on crawler events
     @updateStatus = (item, status) ->
       console.log "#{status} \t #{item.url}"
-      # query = _.pick item, [
-      #   'protocol'
-      #   'host'
-      #   'path'
-      #   'port'
-      # ]
       item.set {status}
       item.save (error) ->
         if error then throw error
 
     eventstates =
+      # SEE: QueueItem#status
       fetchstart   : 'spooled'
       fetchcomplete: 'fetched'
       fetcherror   : 'error'
