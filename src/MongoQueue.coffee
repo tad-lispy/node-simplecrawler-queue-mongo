@@ -58,7 +58,7 @@ module.exports = class MongoQueue
     @Item.count data, callback
 
   getLength: (callback) ->
-    @Item.count callback
+    @Item.count crawler: @crawler.name, callback
 
   # Get last item in queue...
   last: (callback) ->
