@@ -28,6 +28,17 @@ module.exports = class MongoQueue
 
     setEventHandler event, status for event, status of eventstates
 
+    # Reset all spooled items to queued
+    # If the queue was closed (e.g. app was terminated) with some spooled items
+    # we want them to be requeued
+    query =
+      status : 'spooled'
+      crawler: @crawler.name
+    @Item.update query,
+      {status : 'queued'},
+      {multi  : yes},
+      (error) -> if error then throw error
+
 
   # Add item to queue
   add: (protocol, host, port, path, callback) ->
