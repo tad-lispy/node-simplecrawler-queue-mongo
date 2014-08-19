@@ -1,6 +1,6 @@
 {
   "name": "simplecrawler-queue-mongo",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "MongoDB queue for Node Simple Crawler",
   "main": "build/MongoQueue.js",
   "scripts": {
