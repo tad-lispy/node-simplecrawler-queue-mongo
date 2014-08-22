@@ -52,6 +52,11 @@ module.exports = (connection, crawler) ->
       index   : yes
       default : 'default'
 
+  # Compound index for findAndModify query run in MongoQueue#oldestUnfetchedItem
+  # Without it mongod produces gigabytes of logs with warnings
+  schema.index
+    crawler: 1
+    status : 1
 
   schema.virtual 'url'
     .get -> @protocol + '://' + @host + (if @port then ':' + @port) + @path
