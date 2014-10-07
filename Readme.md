@@ -1,19 +1,12 @@
-Mongo powered queue for [SimpleCrawler](https://github.com/cgiffard/node-simplecrawler/)
+[![NPM version](https://badge.fury.io/js/simplecrawler-queue-mongo.svg)](https://www.npmjs.org/package/simplecrawler-queue-mongo)
 
-**NOTE**: This code is very early in developmnt. Please try it and let everybody know what you think (and what bugs have you found) via GitHub issues and pull requests.
+Mongo powered queue for [SimpleCrawler](https://github.com/cgiffard/node-simplecrawler/)
 
 # Install
 
-It's still *alpha* quality software, so I haven't pushed it to NPM yet. Please install it from GitHub repo.
-
 ```shell
-git clone https://github.com/lzrski/node-simplecrawler-queue-mongo.git ./simplecrawler-queue-mongo
-cd simplecrawler-queue-mongo
-npm install
-npm run-script prepublish
+npm install simplecrawler-queue-mongo
 ```
-
-There is also `npm run-script develop` to watch and rebuild - please try it if you would like to hack on this code.
 
 # Use
 
