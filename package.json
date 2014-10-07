@@ -8,6 +8,11 @@
     "prepublish": "gulp build",
     "develop": "gulp develop"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lzrski/node-simplecrawler-queue-mongo.git"
+  },
+  "homepage": "https://github.com/lzrski/node-simplecrawler-queue-mongo",
   "keywords": [
     "SimpleCrawler",
     "Mongo",
