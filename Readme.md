@@ -2,6 +2,10 @@
 
 Mongo powered queue for [SimpleCrawler](https://github.com/cgiffard/node-simplecrawler/)
 
+> :warning:  I've made this project to scratch my own itch. I don't actively use it anymore and therefor I don't maintain it either. I'm happy if it works for you, but I don't promise any support. If you want to become a maintainer, please open an issue. 
+> 
+> Good luck :)
+
 # Install
 
 ```shell
